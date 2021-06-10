@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "87027949860",
+    "project_id": "repo-stock-db",
+    "storage_bucket": "repo-stock-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87027949860:android:1feaf49310de9ff77c53b1",
+        "android_client_info": {
+          "package_name": "com.snn.repostock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87027949860-4p6i7flj51h93bc3o9ur911os6j1k7s7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxp9bKbp-6Y5tWO1DXMjOlsTgieTKqCqk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87027949860-4p6i7flj51h93bc3o9ur911os6j1k7s7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

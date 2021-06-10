@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_profile.*
+
 
 class FragmentProfile : Fragment() {
     override fun onCreateView(
@@ -19,8 +22,13 @@ class FragmentProfile : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val database = Firebase.database
+        val reference = database.getReference("profile")
+
+        reference.setValue("Hello, World!")
 
         val workHours = (1..14).map { (7..14).random() }
         val numberOfCustomers = (1..14).map { (5..100).random() }

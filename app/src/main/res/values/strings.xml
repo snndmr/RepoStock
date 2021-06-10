@@ -9,4 +9,12 @@
     <string name="info_repostock_com">info@repostock.com</string>
     <string name="id">1327-A3</string>
     <string name="log_out">Log Out</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In!</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
+    <string name="sign_up"><u>Sign Up!</u></string>
+    <string name="sign_up_question">Don\'t have an account?</string>
+    <string name="image_auth">image_auth</string>
 </resources>
