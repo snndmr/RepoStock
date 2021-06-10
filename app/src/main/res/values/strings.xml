@@ -4,4 +4,9 @@
     <string name="scanner">Scanner</string>
     <string name="stock">Stock</string>
     <string name="administrative">Administrative</string>
+    <string name="profile_image">profile_image</string>
+    <string name="telephone_number">(+90) 555 555 5555</string>
+    <string name="info_repostock_com">info@repostock.com</string>
+    <string name="id">1327-A3</string>
+    <string name="log_out">Log Out</string>
 </resources>
