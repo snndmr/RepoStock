@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/page_profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_man"
+        android:title="@string/profile" />
+
+    <item
+        android:id="@+id/page_qr_scan"
+        android:enabled="true"
+        android:icon="@drawable/ic_barcode"
+        android:title="@string/scanner" />
+    <item
+        android:id="@+id/page_analysis"
+        android:enabled="true"
+        android:icon="@drawable/ic_packages"
+        android:title="@string/stock" />
+
+    <item
+        android:id="@+id/page_admin"
+        android:enabled="true"
+        android:icon="@drawable/ic_unauthorized_person"
+        android:title="@string/administrative"
+        android:visible="false" />
+
+</menu>

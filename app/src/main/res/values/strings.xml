@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RepoStock</string>
+    <string name="profile">Profile</string>
+    <string name="scanner">Scanner</string>
+    <string name="stock">Stock</string>
+    <string name="administrative">Administrative</string>
+</resources>
