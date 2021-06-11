@@ -17,4 +17,10 @@
     <string name="sign_up"><u>Sign Up!</u></string>
     <string name="sign_up_question">Don\'t have an account?</string>
     <string name="image_auth">image_auth</string>
+    <string name="product">product</string>
+    <string name="stock_quantity">Stock Quantity:</string>
+    <string name="stock_category">Category:</string>
+    <string name="stock_price">Price:</string>
+    <string name="request_stock">Request Stock</string>
+    <string name="search">Search in products</string>
 </resources>

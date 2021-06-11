@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_profile.*
@@ -17,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 
 
 class FragmentProfile : Fragment() {
-    private lateinit var database: DatabaseReference
     private lateinit var worker: Worker
 
     override fun onCreateView(
@@ -27,7 +25,7 @@ class FragmentProfile : Fragment() {
     ): View? {
         val user = arguments?.getString("user").toString()
 
-        Firebase.database.reference.child(user).get().addOnSuccessListener {
+        Firebase.database.reference.child("workers").child(user).get().addOnSuccessListener {
             val iterator = it.value as HashMap<*, *>
 
             worker = Worker(
@@ -35,9 +33,9 @@ class FragmentProfile : Fragment() {
                 iterator["name"] as String,
                 iterator["phoneNumber"] as String,
                 iterator["mail"] as String,
-                iterator["salary"] as Long,
-                iterator["promotion"] as Long,
-                iterator["gift"] as Long,
+                iterator["salary"] as Double,
+                iterator["promotion"] as Double,
+                iterator["gift"] as Double,
                 iterator["hours"] as List<Int>,
                 iterator["sales"] as List<Int>,
                 iterator["customers"] as List<Int>,

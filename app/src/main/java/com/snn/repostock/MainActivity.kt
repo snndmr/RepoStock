@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.page_analysis -> {
-                    val stock = FragmentScanner()
+                    val stock = FragmentStock()
                     stock.arguments = bundle
 
                     supportFragmentManager.beginTransaction()
