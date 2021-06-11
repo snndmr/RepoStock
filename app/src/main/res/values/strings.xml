@@ -8,7 +8,7 @@
     <string name="telephone_number">(+90) 555 555 5555</string>
     <string name="info_repostock_com">info@repostock.com</string>
     <string name="id">1327-A3</string>
-    <string name="log_out">Log Out</string>
+    <string name="log_out"><u>Log Out</u></string>
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

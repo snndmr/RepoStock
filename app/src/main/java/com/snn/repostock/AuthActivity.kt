@@ -45,7 +45,7 @@ class AuthActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("user", user)
+            intent.putExtra("user", user.uid)
             startActivity(intent)
         }
     }
