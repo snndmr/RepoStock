@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_hire"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_sheet_background"
+    android:orientation="vertical"
+    android:padding="16dp"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <EditText
+        android:id="@+id/edit_text_hire_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/rounded_edit_text"
+        android:fontFamily="@font/exo_regular"
+        android:hint="@string/name"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edit_text_hire_phone_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/rounded_edit_text"
+        android:fontFamily="@font/exo_regular"
+        android:hint="@string/phone_number"
+        android:importantForAutofill="no"
+        android:inputType="phone"
+        android:padding="12dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edit_text_hire_mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/rounded_edit_text"
+        android:fontFamily="@font/exo_regular"
+        android:hint="@string/mail"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edit_text_hire_salary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:background="@drawable/rounded_edit_text"
+        android:fontFamily="@font/exo_regular"
+        android:hint="@string/salary"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:padding="12dp"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/exo_regular"
+            android:text="@string/cancel"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/hire_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/exo_regular"
+            android:text="@string/hire"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

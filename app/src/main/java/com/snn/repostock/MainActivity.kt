@@ -1,7 +1,11 @@
 package com.snn.repostock
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -15,14 +19,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setup(user: String) {
+        Firebase.database.reference.child("workers").child(user).child("isAdmin").get()
+            .addOnSuccessListener {
+                if (it.value as Boolean) {
+                    bottom_navigation.menu[3].isVisible = true
+                }
+            }.addOnFailureListener {
+                Log.e("firebase", "Error getting data", it)
+            }
+
         val bundle = Bundle()
         bundle.putString("user", user)
 
         val profile = FragmentProfile()
         profile.arguments = bundle
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, profile)
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container_view, profile)
             .commit()
 
         bottom_navigation.setOnNavigationItemSelectedListener { item ->

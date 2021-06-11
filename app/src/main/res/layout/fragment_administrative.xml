@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <SearchView
-            android:id="@+id/search_view_product"
+            android:id="@+id/search_view_worker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -23,25 +23,25 @@
             android:textSize="14sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_stock"
+            android:id="@+id/recycler_view_workers"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
     </LinearLayout>
 
-    <include layout="@layout/bottom_sheet_persistent_product" />
+    <include layout="@layout/bottom_sheet_persistent_worker" />
 
-    <include layout="@layout/bottom_sheet_persistent_add_product" />
+    <include layout="@layout/bottom_sheet_persistent_hire" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_add_stock"
+        android:id="@+id/floating_hire"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:backgroundTint="@color/white"
         android:contentDescription="@string/add_worker"
-        android:src="@drawable/ic_baseline_add_shopping_cart_24"
+        android:src="@drawable/ic_baseline_person_add_24"
         app:borderWidth="0dp"
         app:useCompatPadding="true" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
