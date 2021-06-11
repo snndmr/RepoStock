@@ -50,6 +50,7 @@ class FragmentProfile : Fragment() {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
+
     private fun setup() {
         text_view_profile_name.text = worker.name
         text_view_profile_id.text = worker.uid
