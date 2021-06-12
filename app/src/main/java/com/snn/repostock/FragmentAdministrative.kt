@@ -193,6 +193,5 @@ class FragmentAdministrative : Fragment(), RecyclerViewClickListener {
 
         val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_worker)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-
     }
 }

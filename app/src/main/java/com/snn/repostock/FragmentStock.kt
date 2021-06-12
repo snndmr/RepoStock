@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,11 +14,16 @@ import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_add_product.*
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_hire.*
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_product.*
+import kotlinx.android.synthetic.main.bottom_sheet_persistent_update_product.*
 import kotlinx.android.synthetic.main.fragment_administrative.*
 import kotlinx.android.synthetic.main.fragment_stock.*
 import kotlinx.android.synthetic.main.relative_layout_product_item.*
@@ -25,6 +31,10 @@ import java.util.*
 
 
 class FragmentStock : Fragment(), RecyclerViewClickListener {
+    private lateinit var uid: String
+    private lateinit var adapter: StockAdapter
+
+    private var isUISetup = false
     private val products = arrayListOf<Product>()
     private var filteredProducts = arrayListOf<Product>()
 
@@ -33,34 +43,56 @@ class FragmentStock : Fragment(), RecyclerViewClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Firebase.database.reference.child("product").get().addOnSuccessListener {
-            (it.value as HashMap<*, *>).forEach { (key, value) ->
-                val iterator = value as HashMap<*, *>
-
-                products.add(
-                    Product(
-                        iterator["name"] as String,
-                        iterator["category"] as String,
-                        iterator["price"] as Double,
-                        iterator["stock"] as Long,
-                        iterator["stocksChange"] as List<Int>,
-                        key as String,
-                    )
-                )
-            }
-
-            setup()
-        }.addOnFailureListener {
-            Log.e("firebase", "Error getting data", it)
-        }
-
+        uid = arguments?.getString("user").toString()
+        databaseOperations()
         return inflater.inflate(R.layout.fragment_stock, container, false)
     }
 
-    private fun setup() {
-        filteredProducts.addAll(products)
+    private fun databaseOperations() {
+        Firebase.database.reference.child("workers").child(uid).child("isAdmin").get()
+            .addOnSuccessListener {
+                if (it.value as Boolean) {
+                    val edit = "Edit Product"
+                    text_view_product_button.text = edit
+                }
+            }.addOnFailureListener {
+                Log.e("firebase", "Error getting data", it)
+            }
 
-        val adapter = StockAdapter(filteredProducts, this@FragmentStock)
+        Firebase.database.reference.child("product")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    products.clear()
+
+                    (dataSnapshot.value as HashMap<*, *>).forEach { (key, value) ->
+                        val iterator = value as HashMap<*, *>
+                        if (iterator.values.size == 5)
+                            products.add(
+                                Product(
+                                    iterator["name"] as String,
+                                    iterator["category"] as String,
+                                    iterator["price"] as Double,
+                                    iterator["stock"] as Long,
+                                    iterator["stocksChange"] as List<Int>,
+                                    key as String,
+                                )
+                            )
+                    }
+
+                    if (!isUISetup) {
+                        filteredProducts.addAll(products)
+                        setupUI()
+                    } else {
+                        adapter.filter(products)
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+    }
+
+    private fun setupUI() {
+        adapter = StockAdapter(filteredProducts, this@FragmentStock)
         recycler_view_stock.layoutManager = LinearLayoutManager(activity)
         recycler_view_stock.adapter = adapter
 
@@ -93,24 +125,10 @@ class FragmentStock : Fragment(), RecyclerViewClickListener {
         })
 
         val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_add_product)
+        attachFloatingAddToBottom(bottomSheetBehavior)
 
         floating_add_stock.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-
-            bottomSheetBehavior.addBottomSheetCallback(object :
-                BottomSheetBehavior.BottomSheetCallback() {
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                }
-
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    when (newState) {
-                        BottomSheetBehavior.STATE_EXPANDED -> floating_add_stock.hide()
-                        BottomSheetBehavior.STATE_COLLAPSED -> floating_add_stock.show()
-                        else -> floating_add_stock.show()
-                    }
-                }
-            })
         }
 
         product_cancel_button.setOnClickListener {
@@ -118,7 +136,23 @@ class FragmentStock : Fragment(), RecyclerViewClickListener {
         }
 
         product_add_button.setOnClickListener {
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            if (!(edit_text_add_product_name.text.isNullOrEmpty() ||
+                        edit_text_add_product_category.text.isNullOrEmpty() ||
+                        edit_text_add_product_price.text.isNullOrEmpty() ||
+                        edit_text_add_product_stock.text.isNullOrEmpty())
+            ) {
+                val product = Product(
+                    edit_text_add_product_name.text.toString(),
+                    edit_text_add_product_category.text.toString(),
+                    edit_text_add_product_price.text.toString().toDouble(),
+                    edit_text_add_product_stock.text.toString().toLong(),
+                    listOf(edit_text_add_product_stock.text.toString().toInt()),
+                    edit_text_add_product_barcode.text.toString()
+                )
+
+                addProduct(product)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
         }
     }
 
@@ -144,11 +178,82 @@ class FragmentStock : Fragment(), RecyclerViewClickListener {
                 )
         )
 
-        text_view_product_request.setOnClickListener {
-            Log.e("TAG", "Product Requested")
+        text_view_product_button.setOnClickListener {
+            edit_text_update_product_name.setText(filteredProducts[position].name)
+            edit_text_update_product_category.setText(filteredProducts[position].category)
+            edit_text_update_product_stock.setText(filteredProducts[position].stock.toString())
+            edit_text_update_product_price.setText(filteredProducts[position].price.toString())
+
+            val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_update_product)
+            attachFloatingAddToBottom(bottomSheetBehavior)
+
+            product_update_cancel_button.setOnClickListener {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+
+            product_update_update_button.setOnClickListener {
+                updateProduct(filteredProducts[position])
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+
+            product_update_delete_button.setOnClickListener {
+                deleteProduct(filteredProducts[position])
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_product)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
+
+    private fun attachFloatingAddToBottom(bottomSheetBehavior: BottomSheetBehavior<LinearLayout>) {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_EXPANDED -> floating_add_stock.hide()
+                    BottomSheetBehavior.STATE_COLLAPSED -> floating_add_stock.show()
+                    else -> floating_add_stock.show()
+                }
+            }
+        })
+    }
+
+
+    private fun addProduct(product: Product) {
+        Firebase.database.reference.child("product").child(product.barcode).push()
+
+        Firebase.database.reference.child("product").child(product.barcode).child("name")
+            .setValue(product.name)
+        Firebase.database.reference.child("product").child(product.barcode).child("category")
+            .setValue(product.category)
+        Firebase.database.reference.child("product").child(product.barcode).child("stock")
+            .setValue(product.stock)
+        Firebase.database.reference.child("product").child(product.barcode).child("price")
+            .setValue(product.price)
+        Firebase.database.reference.child("product").child(product.barcode).child("stocksChange")
+            .setValue(product.stocksChange)
+    }
+
+    private fun deleteProduct(product: Product) {
+        Firebase.database.reference.child("product").child(product.barcode).removeValue()
+    }
+
+    private fun updateProduct(product: Product) {
+        Firebase.database.reference.child("product").child(product.barcode).child("name")
+            .setValue(edit_text_update_product_name.text.toString())
+        Firebase.database.reference.child("product").child(product.barcode).child("category")
+            .setValue(edit_text_update_product_category.text.toString())
+        Firebase.database.reference.child("product").child(product.barcode).child("stock")
+            .setValue(edit_text_update_product_stock.text.toString().toLong())
+        Firebase.database.reference.child("product").child(product.barcode).child("price")
+            .setValue(edit_text_update_product_price.text.toString().toDouble())
+    }
+
 }

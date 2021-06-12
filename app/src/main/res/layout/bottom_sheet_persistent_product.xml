@@ -138,7 +138,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/text_view_product_request"
+        android:id="@+id/text_view_product_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -151,4 +151,20 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/text_view_delete_product_button"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="0dp"
+        android:background="@drawable/rounded_edit_text"
+        android:backgroundTint="#364147"
+        android:fontFamily="@font/exo_regular"
+        android:padding="12dp"
+        android:text="@string/delete_product"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:visibility="invisible" />
 </LinearLayout>

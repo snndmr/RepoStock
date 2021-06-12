@@ -35,4 +35,6 @@
     <string name="price">Price</string>
     <string name="category">Category</string>
     <string name="add">Add</string>
+    <string name="update">Update</string>
+    <string name="delete_product">Delete</string>
 </resources>
