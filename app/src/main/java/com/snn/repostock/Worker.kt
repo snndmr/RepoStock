@@ -1,7 +1,7 @@
 package com.snn.repostock
 
 data class Worker(
-    val uid: String,
+    var uid: String,
     val name: String,
     val phoneNumber: String,
     val mail: String,

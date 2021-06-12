@@ -13,6 +13,8 @@ import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
 import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_hire.*
@@ -22,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_administrative.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_stock.*
 import java.util.*
+
 
 class FragmentAdministrative : Fragment(), RecyclerViewClickListener {
     private val workers = arrayListOf<Worker>()
@@ -121,6 +124,65 @@ class FragmentAdministrative : Fragment(), RecyclerViewClickListener {
 
         hire_button.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            if (!(edit_text_hire_name.text.isEmpty() ||
+                        edit_text_hire_phone_number.text.isEmpty() ||
+                        edit_text_hire_salary.text.isEmpty())
+            ) {
+                val worker = Worker(
+                    "",
+                    edit_text_hire_name.text.toString(),
+                    edit_text_hire_phone_number.text.toString(),
+                    edit_text_hire_name.text.toString() + "@repostock.com",
+                    edit_text_hire_salary.text.toString().toDouble(),
+                    750.5,
+                    150.5,
+                    listOf(0),
+                    listOf(0),
+                    listOf(0),
+                    false
+                )
+                addWorker(worker)
+            }
+        }
+    }
+
+    private fun addWorker(worker: Worker) {
+        val auth = Firebase.auth
+        Log.e("TAG", "addWorker: ${worker.mail}")
+        activity?.let {
+            auth.createUserWithEmailAndPassword(worker.mail, worker.phoneNumber)
+                .addOnCompleteListener(it) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        if (user != null) {
+                            worker.uid = user.uid
+
+                            Firebase.database.reference.child("workers").child(worker.uid).push()
+
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("name").setValue(worker.name)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("phoneNumber").setValue(worker.phoneNumber)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("mail").setValue(worker.mail)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("salary").setValue(worker.salary)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("promotion").setValue(worker.promotion)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("gift").setValue(worker.gift)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("hours").setValue(worker.hours)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("sales").setValue(worker.sales)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("customers").setValue(worker.customers)
+                            Firebase.database.reference.child("workers").child(worker.uid)
+                                .child("isAdmin").setValue(worker.isAdmin)
+                        }
+                    }
+                }
         }
     }
 
@@ -186,10 +248,6 @@ class FragmentAdministrative : Fragment(), RecyclerViewClickListener {
                     )
                 )
         )
-
-        text_view_admin_worker_request.setOnClickListener {
-            Log.e("TAG", "Worker Requested")
-        }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_worker)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED

@@ -22,6 +22,7 @@
         android:inputType="text"
         android:padding="12dp"
         android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:textSize="14sp" />
 
     <EditText
@@ -29,41 +30,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:textColor="@color/black"
         android:background="@drawable/rounded_edit_text"
         android:fontFamily="@font/exo_regular"
         android:hint="@string/phone_number"
         android:importantForAutofill="no"
         android:inputType="phone"
         android:padding="12dp"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/edit_text_hire_mail"
-        android:layout_width="match_parent"
         android:textColor="@color/black"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:background="@drawable/rounded_edit_text"
-        android:fontFamily="@font/exo_regular"
-        android:hint="@string/mail"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:padding="12dp"
+        android:textColorHint="@color/black"
         android:textSize="14sp" />
 
     <EditText
         android:id="@+id/edit_text_hire_salary"
         android:layout_width="match_parent"
-        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:background="@drawable/rounded_edit_text"
         android:fontFamily="@font/exo_regular"
         android:hint="@string/salary"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         android:padding="12dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
         android:textSize="14sp" />
 
     <LinearLayout

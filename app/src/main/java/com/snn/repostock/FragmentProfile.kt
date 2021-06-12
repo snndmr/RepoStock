@@ -56,7 +56,9 @@ class FragmentProfile : Fragment() {
         text_view_profile_id.text = worker.uid
         text_view_profile_telephone.text = worker.phoneNumber
         text_view_profile_mail.text = worker.mail
-
+        text_view_profile_logout.setOnClickListener {
+            activity?.finish()
+        }
         aa_chart_view_daily_salary.aa_drawChartWithChartModel(
             AAChartModel()
                 .chartType(AAChartType.Pie)
