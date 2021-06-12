@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.bottom_sheet_persistent_product.*
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_update_product.*
 import kotlinx.android.synthetic.main.fragment_administrative.*
 import kotlinx.android.synthetic.main.fragment_stock.*
-import kotlinx.android.synthetic.main.relative_layout_product_item.*
 import java.util.*
 
 

@@ -7,7 +7,7 @@
     android:background="@drawable/bottom_sheet_background"
     android:orientation="vertical"
     android:padding="16dp"
-    app:behavior_peekHeight="80dp"
+    app:behavior_peekHeight="70dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <TextView
@@ -29,6 +29,7 @@
         android:importantForAutofill="no"
         android:inputType="textEmailAddress"
         android:padding="12dp"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
     <EditText
@@ -42,6 +43,7 @@
         android:importantForAutofill="no"
         android:inputType="textPassword"
         android:padding="12dp"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
     <TextView

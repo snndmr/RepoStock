@@ -3,12 +3,15 @@ package com.snn.repostock
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_auth.*
+import kotlinx.android.synthetic.main.bottom_sheet_persistent_update_product.*
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -26,17 +29,18 @@ class AuthActivity : AppCompatActivity() {
             )
         }
 
+        val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_auth)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     private fun signIn(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.e("TAG", "signInWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
-                    Log.e("TAG", "signInWithEmail:failure", task.exception)
+                    Toast.makeText(this, "Wrong email and password!", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
             }

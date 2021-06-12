@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#313131"
+    android:orientation="vertical"
+    tools:context=".PayActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="3">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/airbnb_get"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/get" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/airbnb_success"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:visibility="invisible"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/success" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/text_view_success"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/exo_italic"
+        android:gravity="center"
+        android:text="@string/bring_your_credit_card_closer"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
+</LinearLayout>

@@ -15,7 +15,7 @@ class StockAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.relative_layout_product_item, parent, false)
+            .inflate(R.layout.product_item, parent, false)
         return Holder(view)
     }
 

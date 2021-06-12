@@ -18,6 +18,7 @@
             android:layout_gravity="center"
             android:layout_margin="16dp"
             android:background="@drawable/edit_text_rounded"
+            android:backgroundTint="@android:color/darker_gray"
             android:fontFamily="@font/exo_regular"
             android:hint="@string/search"
             android:textSize="14sp" />

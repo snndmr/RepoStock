@@ -72,6 +72,7 @@
                     android:fontFamily="@font/exo_regular"
                     android:padding="4dp"
                     android:text="@string/id"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -99,6 +100,7 @@
                     android:fontFamily="@font/exo_regular"
                     android:padding="4dp"
                     android:text="@string/telephone_number"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -126,6 +128,7 @@
                     android:fontFamily="@font/exo_regular"
                     android:padding="4dp"
                     android:text="@string/info_repostock_com"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
 

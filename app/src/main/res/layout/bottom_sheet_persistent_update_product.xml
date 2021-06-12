@@ -21,6 +21,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:padding="12dp"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
     <EditText
@@ -34,6 +35,7 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:padding="12dp"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
     <EditText
@@ -47,6 +49,7 @@
         android:importantForAutofill="no"
         android:inputType="numberDecimal"
         android:padding="12dp"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
     <EditText
@@ -60,6 +63,7 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:padding="12dp"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
     <LinearLayout
