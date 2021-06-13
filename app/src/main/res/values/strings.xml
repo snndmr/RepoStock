@@ -42,4 +42,6 @@
     <string name="total">Total: 50</string>
     <string name="bring_your_credit_card_closer">Bring your credit card closer.</string>
     <string name="payment_success">Payment Success!</string>
+    <string name="okey">Ok</string>
+    <string name="request_list">Request List</string>
 </resources>

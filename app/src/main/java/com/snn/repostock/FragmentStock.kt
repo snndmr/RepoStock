@@ -1,5 +1,6 @@
 package com.snn.repostock
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +25,9 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_add_product.*
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_hire.*
+import kotlinx.android.synthetic.main.bottom_sheet_persistent_list.*
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_product.*
+import kotlinx.android.synthetic.main.bottom_sheet_persistent_request_list.*
 import kotlinx.android.synthetic.main.bottom_sheet_persistent_update_product.*
 import kotlinx.android.synthetic.main.fragment_administrative.*
 import kotlinx.android.synthetic.main.fragment_stock.*
@@ -51,8 +56,53 @@ class FragmentStock : Fragment(), RecyclerViewClickListener {
         Firebase.database.reference.child("workers").child(uid).child("isAdmin").get()
             .addOnSuccessListener {
                 if (it.value as Boolean) {
-                    val edit = "Edit Product"
-                    text_view_product_button.text = edit
+                    text_view_product_request_button.visibility = View.INVISIBLE
+                    text_view_product_update_button.visibility = View.VISIBLE
+                    floating_add_stock.visibility = View.VISIBLE
+
+                    Firebase.database.reference.child("alerts")
+                        .addValueEventListener(object : ValueEventListener {
+                            @SuppressLint("InflateParams", "SetTextI18n")
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                var requestCounter = 0
+                                for (product in products) {
+                                    if (dataSnapshot.hasChild(product.barcode)) {
+                                        requestCounter += 1
+
+                                        val inflater = activity?.layoutInflater
+                                        val item = inflater?.inflate(R.layout.product_item, null)
+
+                                        (item?.findViewById(R.id.text_view_product_name) as TextView).text =
+                                            product.name
+                                        (item.findViewById(R.id.text_view_product_stock) as TextView).text =
+                                            product.price.toString()
+                                        (item.findViewById(R.id.text_view_product_static_stock) as TextView).text =
+                                            "Price"
+
+                                        val layoutParams = LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.MATCH_PARENT,
+                                            LinearLayout.LayoutParams.WRAP_CONTENT
+                                        )
+                                        layoutParams.setMargins(16, 16, 16, 16)
+                                        linear_layout_request_root.addView(item, layoutParams)
+                                    }
+                                }
+
+                                if (requestCounter > 0) {
+                                    val bottomSheetBehavior =
+                                        BottomSheetBehavior.from(bottom_sheet_request_list)
+                                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+                                    text_view_ok_button.setOnClickListener {
+                                        bottomSheetBehavior.state =
+                                            BottomSheetBehavior.STATE_COLLAPSED
+                                        Firebase.database.reference.child("alerts").removeValue()
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(databaseError: DatabaseError) {}
+                        })
                 }
             }.addOnFailureListener {
                 Log.e("firebase", "Error getting data", it)
@@ -177,7 +227,7 @@ class FragmentStock : Fragment(), RecyclerViewClickListener {
                 )
         )
 
-        text_view_product_button.setOnClickListener {
+        text_view_product_update_button.setOnClickListener {
             edit_text_update_product_name.setText(filteredProducts[position].name)
             edit_text_update_product_category.setText(filteredProducts[position].category)
             edit_text_update_product_stock.setText(filteredProducts[position].stock.toString())
@@ -201,6 +251,12 @@ class FragmentStock : Fragment(), RecyclerViewClickListener {
             }
 
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+
+        text_view_product_request_button.setOnClickListener {
+            Toast.makeText(activity, "Alert Added", Toast.LENGTH_SHORT).show()
+            Firebase.database.reference.child("alerts").child(filteredProducts[position].barcode)
+                .setValue(1)
         }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(bottom_sheet_product)
